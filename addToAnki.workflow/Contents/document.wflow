@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AMApplicationBuild</key>
+	<string>521.1</string>
+	<key>AMApplicationVersion</key>
+	<string>2.10</string>
+	<key>AMDocumentVersion</key>
+	<string>2</string>
+	<key>actions</key>
+	<array>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0.2</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>Run AppleScript</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>-- format input text to the url formaton replace_chars(this_text, search_string, replacement_string)	set AppleScript's text item delimiters to the search_string	set the item_list to every text item of this_text	set AppleScript's text item delimiters to the replacement_string	set this_text to the item_list as string	set AppleScript's text item delimiters to ""	return this_textend replace_charson run {input, parameters}	-- config	set x_rapid_api_key to "API_KEY_HERE"	set translaytor_url to "https://nlp-translation.p.rapidapi.com/v1/translate"	set headers to {"X-RapidAPI-Host: nlp-translation.p.rapidapi.com", "X-RapidAPI-Key: " &amp; x_rapid_api_key}	set params to {"from=en", "to=ru"}		set input_text to input as string	set url_text to replace_chars(input_text, " ", "%20")		set command to "curl -X GET -H " &amp; quoted form of item 1 of headers &amp; " -H " &amp; quoted form of item 2 of headers &amp; " -G " &amp; quoted form of translator_url &amp; " -d " &amp; quoted form of item 1 of params &amp; " -d " &amp; quoted form of item 2 of params &amp; " -d text=" &amp; quoted form of url_text		set response_text to do shell script command	set translated_text to do shell script "echo " &amp; quoted form of response_text &amp; " | awk -F '\"' '{print $20}'"		set add_to_anki_command to "curl localhost:8765 -X POST -d '{\"action\": \"addNotes\", \"version\": 6, \"params\": { \"notes\": [{ \"deckName\": \"Daily\", \"modelName\": \"Basic\", \"fields\": { \"Front\": \"" &amp; input_text &amp; "\", \"Back\": \"" &amp; translated_text &amp; "\" }, \"tags\": [\"script\"] }] } }'"		set result to do shell script add_to_anki_command	set errorMessage to do shell script "echo " &amp; result &amp; " | awk -F 'error: ' '{print $2}' | awk -F '}' '{print $1}' "		if errorMessage is equal to "null" then		display notification "Successfully added to the dictionary" with title "Anki" subtitle "[" &amp; input_text &amp; " - " &amp; translated_text &amp; "]" sound name "Bottle"	else		display notification errorMessage	end ifend run</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.2</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>InputUUID</key>
+				<string>FD509035-D8B3-4B77-872C-1D69941EC856</string>
+				<key>Keywords</key>
+				<array>
+					<string>Run</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>1461AA67-22E9-42A7-A5A5-A4AFBF01D1CD</string>
+				<key>UUID</key>
+				<string>FD0EABE3-5385-4D78-8DBA-2AF544E8950E</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<integer>1</integer>
+				<key>location</key>
+				<string>349.500000:368.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>connectors</key>
+	<dict/>
+	<key>workflowMetaData</key>
+	<dict>
+		<key>applicationBundleIDsByPath</key>
+		<dict/>
+		<key>applicationPaths</key>
+		<array/>
+		<key>inputTypeIdentifier</key>
+		<string>com.apple.Automator.text</string>
+		<key>outputTypeIdentifier</key>
+		<string>com.apple.Automator.nothing</string>
+		<key>presentationMode</key>
+		<integer>11</integer>
+		<key>processesInput</key>
+		<false/>
+		<key>serviceInputTypeIdentifier</key>
+		<string>com.apple.Automator.text</string>
+		<key>serviceOutputTypeIdentifier</key>
+		<string>com.apple.Automator.nothing</string>
+		<key>serviceProcessesInput</key>
+		<false/>
+		<key>systemImageName</key>
+		<string>NSActionTemplate</string>
+		<key>useAutomaticInputType</key>
+		<false/>
+		<key>workflowTypeIdentifier</key>
+		<string>com.apple.Automator.servicesMenu</string>
+	</dict>
+</dict>
+</plist>
